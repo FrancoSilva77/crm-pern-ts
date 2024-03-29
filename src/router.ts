@@ -5,6 +5,7 @@ import {
   createProduct,
   getProductById,
   updateProduct,
+  updateAvailability,
 } from './handlers/product';
 import { handleInputErrors } from './middleware';
 
@@ -37,6 +38,7 @@ router.post(
 router.put(
   '/:id',
   // Validación
+  param('id').isInt().withMessage('ID no Válido'),
   body('name').notEmpty().withMessage('El nombre es obligatorio'),
   body('price')
     .isNumeric()
@@ -52,9 +54,12 @@ router.put(
   updateProduct
 );
 
-router.patch('/', (req, res) => {
-  res.json('DESDE PATCH');
-});
+router.patch(
+  '/:id',
+  param('id').isInt().withMessage('ID no Válido'),
+  handleInputErrors,
+  updateAvailability
+);
 
 router.delete('/', (req, res) => {
   res.json('DESDE DELETE');
