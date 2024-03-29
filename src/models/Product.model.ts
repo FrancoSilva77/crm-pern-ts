@@ -14,10 +14,11 @@ class Product extends Model {
   })
   price: number;
 
+  @Default(true)
   @Column({
     type: DataType.BOOLEAN,
   })
   availability: boolean;
 }
 
-export default Product
+export default Product;
