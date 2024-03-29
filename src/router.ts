@@ -6,6 +6,7 @@ import {
   getProductById,
   updateProduct,
   updateAvailability,
+  deleteProduct,
 } from './handlers/product';
 import { handleInputErrors } from './middleware';
 
@@ -61,8 +62,11 @@ router.patch(
   updateAvailability
 );
 
-router.delete('/', (req, res) => {
-  res.json('DESDE DELETE');
-});
+router.delete(
+  '/:id',
+  param('id').isInt().withMessage('ID no Válido'),
+  handleInputErrors,
+  deleteProduct
+);
 
 export default router;
