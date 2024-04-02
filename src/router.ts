@@ -239,6 +239,35 @@ router.patch(
   updateAvailability
 );
 
+/**
+ * @swagger
+ *  /api/products/{id}:
+ *  delete:
+ *    summary: Delete a product by given a Id
+ *    tags: 
+ *      - Products
+ *    description: Return a confirmation Message
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The ID of the products to retrieve
+ *      required: true
+ *      schema:
+ *        type: integer
+ *    responses:
+ *      200:
+ *        description: Successful response
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: string
+ *              value: 'The product has been deleted'
+ *      400:
+ *        description: Bad Request - Invalid inpu data
+ *      404:
+ *        description: Product Not Found
+*/
+
 router.delete(
   '/:id',
   param('id').isInt().withMessage('ID no Válido'),
