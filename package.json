@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "test": "jest --detectOpenHandles",
-    "pretest":"ts-node ./src/data --clear"
+    "test:coverage": "npm run pretest && jest --detectOpenHandles --coverage",
+    "pretest": "ts-node ./src/data --clear"
   },
   "author": "Franco Silva",
   "license": "ISC",
