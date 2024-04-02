@@ -174,17 +174,16 @@ router.post(
  *              availability:
  *                type: boolean
  *                example: true
- *      responses:
- *       200:
- *         description: Successful response
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Product'
- *       400:
- *         description: Bad Request - Inavalid ID or Invalid input data
- *       404:
- *         description: Product not found
+ *    responses:
+ *      201:
+ *        description: Successful response
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Product'
+ *      400:
+ *        description: Bad Request - Invalid inpu data
+ *
  */
 
 router.put(
