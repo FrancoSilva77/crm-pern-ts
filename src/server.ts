@@ -1,7 +1,7 @@
 import express from 'express';
 import colors from 'colors';
-import swaggerUi from 'swagger-ui-express'
-import swaggerSpec from './config/swagger';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec, { swaggerUiOptions } from './config/swagger';
 import router from './router';
 import db from './config/db';
 
@@ -25,12 +25,16 @@ connectDB();
 const server = express();
 
 // Leer datos de formulario
-server.use(express.json())
+server.use(express.json());
 
 server.use('/api/products', router);
 
 // Documentacion
-server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+server.use(
+  '/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, swaggerUiOptions)
+);
 
 // server.get('/api', (req, res) => {
 //   res.json({msg: 'DESDE API'})

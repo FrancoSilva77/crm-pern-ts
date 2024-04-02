@@ -1,4 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc';
+import { SwaggerUiOptions } from 'swagger-ui-express';
 
 const options: swaggerJSDoc.Options = {
   swaggerDefinition: {
@@ -20,4 +21,21 @@ const options: swaggerJSDoc.Options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
+const swaggerUiOptions: SwaggerUiOptions = {
+  customCss: `
+    .topbar-wrapper .link {
+      content: url('https://franco-silva-cv.vercel.app/img/Logo.png');
+      height: auto;
+      width: 40px;
+    }
+    .swagger-ui .topbar {
+      background-color: black;
+    }
+  `,
+  customSiteTitle: 'Documentación REST API Express / API',
+};
+
 export default swaggerSpec
+export {
+  swaggerUiOptions
+}
