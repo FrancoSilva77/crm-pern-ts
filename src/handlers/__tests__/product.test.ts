@@ -164,13 +164,11 @@ describe('PUT /api/products/:id', () => {
   });
 
   it('should update an existing product with valid data', async () => {
-    const response = await request(server)
-      .put(`/api/products/1`)
-      .send({
-        name: 'Television 30 pulgadas Actualizado',
-        price: 100,
-        availability: true,
-      });
+    const response = await request(server).put(`/api/products/1`).send({
+      name: 'Television 30 pulgadas Actualizado',
+      price: 100,
+      availability: true,
+    });
 
     expect(response.status).toBe(200);
     // * Las siguientes 2 opciones es lo mismo
@@ -179,4 +177,31 @@ describe('PUT /api/products/:id', () => {
     expect(response.status).not.toBe(400);
     expect(response.body).not.toHaveProperty('errors');
   });
+});
+
+describe('DELETE /api/products/:id', () => {
+  it('should check a valid ID', async () => {
+    const response = await request(server).delete('/api/products/not-valid');
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('errors');
+    expect(response.body.errors[0].msg).toBe('ID no Válido');
+  });
+
+  it('should return a 404 response for a npn-existent product', async () => {
+    const productId = 2000;
+    const response = await request(server).delete(`/api/products/${productId}`);
+    expect(response.status).toBe(404);
+    expect(response.body.error).toBe('Producto no encontrado');
+
+    expect(response.status).not.toBe(200);
+  });
+
+  it('should delete a product', async ()=> {
+    const response = await request(server).delete('/api/products/1')
+    expect(response.status).toBe(200)
+    expect(response.body.data).toBe('Producto eliminado');
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(400)
+  })
 });
