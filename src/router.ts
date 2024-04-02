@@ -84,7 +84,7 @@ router.get('/', getProducts);
  *      404:
  *        description: Not Found
  *      400:
- *        description: Bad Request - Inavalid ID 
+ *        description: Bad Request - Inavalid ID
  *
  *
  */
@@ -110,7 +110,7 @@ router.get(
  *          schema:
  *            type: object
  *            properties:
- *              name: 
+ *              name:
  *                type: string
  *                example: "Tablet 12 pulgadas"
  *              price:
@@ -118,11 +118,15 @@ router.get(
  *                example: 399
  *    responses:
  *      201:
- *        description: Product created succesfully
+ *        description: Successful response
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Product'
  *      400:
- *        description: Bad Request - Invalid inpu data 
- *  
-*/
+ *        description: Bad Request - Invalid inpu data
+ *
+ */
 
 router.post(
   '/',
@@ -138,6 +142,50 @@ router.post(
   handleInputErrors,
   createProduct
 );
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  put:
+ *    summary: Updates a product with user input
+ *    tags:
+ *      - Products
+ *    description: Returns the updated product
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The ID of the products to retrieve
+ *      required: true
+ *      schema:
+ *        type: integer
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Tablet 12 pulgadas"
+ *              price:
+ *                type: number
+ *                example: 399
+ *              availability:
+ *                type: boolean
+ *                example: true
+ *      responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       400:
+ *         description: Bad Request - Inavalid ID or Invalid input data
+ *       404:
+ *         description: Product not found
+ */
 
 router.put(
   '/:id',
