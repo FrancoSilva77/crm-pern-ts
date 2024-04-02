@@ -98,3 +98,85 @@ describe('GET /api/products/:id', () => {
     expect(response.body).toHaveProperty('data');
   });
 });
+
+describe('PUT /api/products/:id', () => {
+  it('should check a valid ID in URL', async () => {
+    const response = await request(server)
+      .put('/api/products/not-valid-url')
+      .send({
+        name: 'Television 30 pulgadas Actualizado',
+        price: 100,
+        availability: false,
+      });
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('errors');
+    expect(response.body.errors).toHaveLength(1);
+    expect(response.body.errors[0].msg).toBe('ID no Válido');
+  });
+
+  it('should display validation error messages when updating a product', async () => {
+    const response = await request(server).put('/api/products/1').send({});
+
+    expect(response.status).toBe(400);
+    // * Las siguientes 2 opciones es lo mismo
+    expect(response.body).toHaveProperty('errors');
+    expect(response.body.errors).toBeTruthy();
+    expect(response.body.errors).toHaveLength(5);
+
+    expect(response.status).not.toBe(200);
+    expect(response.body).not.toHaveProperty('data');
+  });
+
+  it('should validate that the price is greater than 0', async () => {
+    const response = await request(server).put('/api/products/1').send({
+      name: 'Television 30 pulgadas Actualizado',
+      price: 0,
+      availability: false,
+    });
+
+    expect(response.status).toBe(400);
+    // * Las siguientes 2 opciones es lo mismo
+    expect(response.body).toHaveProperty('errors');
+    expect(response.body.errors).toBeTruthy();
+    expect(response.body.errors).toHaveLength(1);
+    expect(response.body.errors[0].msg).toBe('El precio no es válido');
+
+    expect(response.status).not.toBe(200);
+    expect(response.body).not.toHaveProperty('data');
+  });
+
+  it('should return a 404 response for a non-existent product', async () => {
+    const productId = 2000;
+    const response = await request(server)
+      .put(`/api/products/${productId}`)
+      .send({
+        name: 'Television 30 pulgadas Actualizado',
+        price: 100,
+        availability: false,
+      });
+
+    expect(response.status).toBe(404);
+    // * Las siguientes 2 opciones es lo mismo
+    expect(response.body.error).toBe('Producto no encontrado');
+
+    expect(response.status).not.toBe(200);
+    expect(response.body).not.toHaveProperty('data');
+  });
+
+  it('should update an existing product with valid data', async () => {
+    const response = await request(server)
+      .put(`/api/products/1`)
+      .send({
+        name: 'Television 30 pulgadas Actualizado',
+        price: 100,
+        availability: true,
+      });
+
+    expect(response.status).toBe(200);
+    // * Las siguientes 2 opciones es lo mismo
+    expect(response.body).toHaveProperty('data');
+
+    expect(response.status).not.toBe(400);
+    expect(response.body).not.toHaveProperty('errors');
+  });
+});
