@@ -8,9 +8,11 @@ import {
   updateAvailability,
   deleteProduct,
 } from './handlers/product';
+import { getSales, saveSale } from './handlers/sale';
 import { handleInputErrors } from './middleware';
 
 const router = Router();
+const routerSales = Router();
 /**
  * @swagger
  * components:
@@ -230,7 +232,7 @@ router.put(
  *      400:
  *        description: Bad Request - Invalid inpu data
  *
-*/
+ */
 
 router.patch(
   '/:id',
@@ -244,7 +246,7 @@ router.patch(
  *  /api/products/{id}:
  *  delete:
  *    summary: Delete a product by given a Id
- *    tags: 
+ *    tags:
  *      - Products
  *    description: Return a confirmation Message
  *    parameters:
@@ -266,7 +268,7 @@ router.patch(
  *        description: Bad Request - Invalid inpu data
  *      404:
  *        description: Product Not Found
-*/
+ */
 
 router.delete(
   '/:id',
@@ -275,4 +277,9 @@ router.delete(
   deleteProduct
 );
 
+// * Ventas
+routerSales.get('/', getSales);
+routerSales.post('/', saveSale);
+
 export default router;
+export {routerSales};

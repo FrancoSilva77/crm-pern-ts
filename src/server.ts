@@ -4,7 +4,7 @@ import cors, { CorsOptions } from 'cors';
 import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec, { swaggerUiOptions } from './config/swagger';
-import router from './router';
+import router, { routerSales } from './router';
 import db from './config/db';
 
 // Conectar a base de datos
@@ -37,7 +37,8 @@ const corsOptions: CorsOptions = {
   },
 };
 
-server.use(cors(corsOptions));
+// server.use(cors(corsOptions));
+server.use(cors());
 
 // Leer datos de formulario
 server.use(express.json());
@@ -45,6 +46,7 @@ server.use(express.json());
 server.use(morgan('dev'))
 
 server.use('/api/products', router);
+server.use('/api/sales', routerSales);
 
 // Documentacion
 server.use(
